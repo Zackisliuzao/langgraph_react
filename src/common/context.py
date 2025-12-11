@@ -44,6 +44,14 @@ class Context:
             "json_schema_extra": {"langgraph_nodes": ["tools"]},
         },
     )
+    
+    enable_context7: bool = field(
+        default=False,
+        metadata={
+            "description": "Whether to enable the Context7 MCP tool to ensure you can always access the latest project documentation.",
+            "json_schema_extra": {"langgraph_nodes": ["tools"]},
+        },
+    )
 
     def __post_init__(self) -> None:
         """Fetch env vars for attributes that were not passed as args."""

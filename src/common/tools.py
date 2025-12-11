@@ -13,7 +13,7 @@ from langchain_tavily import TavilySearch
 from langgraph.runtime import get_runtime
 
 from common.context import Context
-from common.mcp import get_deepwiki_tools
+from common.mcp import get_deepwiki_tools, get_context7_tools
 
 logger = logging.getLogger(__name__)
 
@@ -40,5 +40,8 @@ async def get_tools() -> List[Callable[..., Any]]:
         deepwiki_tools = await get_deepwiki_tools()
         tools.extend(deepwiki_tools)
         logger.info(f"Loaded {len(deepwiki_tools)} deepwiki tools")
+    if runtime.context.enable_context7:
+        context7_tools = await get_context7_tools() 
+        tools.extend(context7_tools)
 
     return tools

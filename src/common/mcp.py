@@ -20,10 +20,10 @@ MCP_SERVERS = {
         "transport": "streamable_http",
     },
     # Add more MCP servers here as needed
-    # "context7": {
-    #     "url": "https://mcp.context7.com/sse",
-    #     "transport": "sse",
-    # },
+    "context7": {
+        "url": "https://mcp.context7.com/sse",
+        "transport": "sse",
+    },
 }
 
 
@@ -100,6 +100,11 @@ async def get_mcp_tools(server_name: str) -> List[Callable[..., Any]]:
 async def get_deepwiki_tools() -> List[Callable[..., Any]]:
     """Get DeepWiki MCP tools."""
     return await get_mcp_tools("deepwiki")
+
+# 添加服务器函数
+async def get_context7_tools() -> List[Callable[..., Any]]:
+    """获取 Context7 文档工具。"""
+    return await get_mcp_tools("context7")
 
 
 async def get_all_mcp_tools() -> List[Callable[..., Any]]:
