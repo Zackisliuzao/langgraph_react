@@ -63,5 +63,13 @@ def load_chat_model(
 
         return create_siliconflow_model(model)
 
+    # Handle Ollama models
+    if provider_lower == "ollama":
+        import os
+        from langchain_ollama import ChatOllama
+
+        base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+        return ChatOllama(model=model,base_url=base_url)
+
     # Use standard langchain initialization for other providers
     return init_chat_model(model, model_provider=provider)
