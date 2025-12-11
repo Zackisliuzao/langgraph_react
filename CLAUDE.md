@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a LangGraph ReAct (Reasoning and Action) Agent template that implements an iterative reasoning agent using LangGraph framework. The agent processes user queries through a cycle of reasoning, action execution, and observation. **Version 0.2.0** introduces comprehensive evaluation systems and expanded model provider support.
+This is a LangGraph ReAct (Reasoning and Action) Agent template that implements an iterative reasoning agent using LangGraph framework. The agent processes user queries through a cycle of reasoning, action execution, and observation. **Version 0.2.1** introduces comprehensive evaluation systems and expanded model provider support.
 
 ## Architecture
 
@@ -38,6 +38,7 @@ make test_watch_integration # Run integration tests in watch mode
 make test_watch_e2e         # Run e2e tests in watch mode
 
 # Additional test options
+make test_profile           # Run tests with profiling
 make extended_tests         # Run extended test suite
 ```
 
@@ -59,10 +60,12 @@ make eval_multiturn_hacker   # Test with hacker persona
 
 ### Code Quality
 ```bash
-make lint                   # Run linters (ruff + mypy)  
+make lint                   # Run linters (ruff + mypy)
 make format                 # Auto-format code with ruff
 make lint_package           # Lint only src/ directory
 make lint_tests             # Lint only tests/ directory
+make spell_check            # Run spell check using codespell
+make spell_fix              # Fix spelling issues automatically
 ```
 
 ### Development Server
@@ -98,6 +101,7 @@ make dev_ui                 # Start LangGraph development server with UI
   - `siliconflow.py`: SiliconFlow model integrations (NEW in v0.2.0)
 - `src/common/prompts.py`: System prompt templates
 - `src/common/utils.py`: Shared utility functions including model loading
+- `src/common/basemodel.py`: Centralized Pydantic configuration via `AgentBaseModel` for structured tool outputs
 
 ### Configuration
 - `langgraph.json`: LangGraph Studio configuration pointing to the main graph
@@ -151,3 +155,4 @@ This project integrates with Model Context Protocol (MCP) servers for dynamic ex
   - Model-specific testing across different providers (Qwen, GLM, etc.)
 - **MCP Integration**: DeepWiki tools are dynamically loaded when `enable_deepwiki=True` in context configuration
 - **Multi-Model Support**: Test across different providers using evaluation commands for comprehensive coverage
+- **Structured Outputs**: Use `AgentBaseModel` from `src/common/basemodel.py` when defining structured tool outputs or graph state - it enforces strict typing, forbids unknown fields, and supports alias-driven serialization by default
