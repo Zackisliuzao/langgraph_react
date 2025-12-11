@@ -52,6 +52,14 @@ class Context:
             "json_schema_extra": {"langgraph_nodes": ["tools"]},
         },
     )
+    
+    enable_mysql: bool = field(
+        default=False,
+        metadata={
+            "description": "Whether to enable the MySQL MCP tool to access your MySQL database.",
+            "json_schema_extra": {"langgraph_nodes": ["tools"]},
+        },
+    )
 
     def __post_init__(self) -> None:
         """Fetch env vars for attributes that were not passed as args."""

@@ -1,6 +1,7 @@
 """MCP Client setup and management for LangGraph ReAct Agent."""
 
 import logging
+import os
 from typing import Any, Callable, Dict, List, Optional, cast
 
 from langchain_mcp_adapters.client import (  # type: ignore[import-untyped]
@@ -21,9 +22,25 @@ MCP_SERVERS = {
     },
     # Add more MCP servers here as needed
     "context7": {
-        "url": "https://mcp.context7.com/sse",
-        "transport": "sse",
+        "url": "https://mcp.context7.com/mcp",
+        "transport": "streamable_http",
     },
+    "mysql": {
+        "command": os.environ.get("MYSQL_MCP_COMMAND", "/Users/liuzao/WorkPlace/good-project/go-mcp-mysql/mysql-mcp"),
+        "args": [
+            "--host",
+            os.environ.get("MYSQL_HOST"),
+            "--user",
+            os.environ.get("MYSQL_USER"),
+            "--pass",
+            os.environ.get("MYSQL_PASSWORD"),
+            "--port",
+            os.environ.get("MYSQL_PORT"),
+            "--db",
+            os.environ.get("MYSQL_DATABASE")
+        ],
+        "transport": "stdio",
+    }
 }
 
 
@@ -105,6 +122,10 @@ async def get_deepwiki_tools() -> List[Callable[..., Any]]:
 async def get_context7_tools() -> List[Callable[..., Any]]:
     """获取 Context7 文档工具。"""
     return await get_mcp_tools("context7")
+
+async def get_mysql_tools() -> List[Callable[..., Any]]:
+    """Get MySQL MCP tools."""
+    return await get_mcp_tools("mysql")
 
 
 async def get_all_mcp_tools() -> List[Callable[..., Any]]:
